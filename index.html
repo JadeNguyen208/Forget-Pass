@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản Lý Công Việc</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       #F2EDE4;
+    --orange:      #f0900a;
+    --orange-light:#f5a833;
+    --orange-dark: #c97208;
+    --white:       #FFFFFF;
+    --border:      #E5DDD0;
+    --text-main:   #2d2010;
+    --text-muted:  #8a7a60;
+    --shadow:      rgba(120, 80, 10, 0.13);
+    --error:       #C0392B;
+    --success:     #27AE60;
+    --input-bg:    #FAF7F2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('data:image/jpeg;base64,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');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    z-index: 0;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: 0 16px 56px var(--shadow), 0 2px 10px rgba(120,80,10,0.07);
+    width: 390px;
+    max-width: 94vw;
+    padding: 40px 34px 34px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-wrap { text-align: center; margin-bottom: 28px; }
+  .logo-icon {
+    width: 76px; height: 76px;
+    background: var(--orange);
+    border-radius: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 22px rgba(240,144,10,0.40);
+    margin-bottom: 14px;
+    animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .app-title {
+    display: block;
+    font-size: 1.18rem; font-weight: 800;
+    color: var(--text-main); letter-spacing: 0.01em;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeUp .32s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .screen-title {
+    font-size: 1.05rem; font-weight: 800;
+    color: var(--text-main); margin-bottom: 4px;
+    text-align: center;
+  }
+  .screen-desc {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-bottom: 20px; line-height: 1.55;
+    text-align: center;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 0.83rem; font-weight: 700;
+    color: var(--text-main); margin-bottom: 7px;
+  }
+  .input-wrap { position: relative; }
+  .input-icon {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    pointer-events: none; display: flex; align-items: center;
+  }
+  input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    padding: 11px 44px 11px 42px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.94rem; color: var(--text-main);
+    background: var(--input-bg);
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    outline: none;
+  }
+  input::placeholder { color: #b8a88a; }
+  input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(240,144,10,0.13);
+    background: var(--white);
+  }
+  .eye-btn {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    padding: 4px; display: flex; align-items: center;
+  }
+
+  .remember-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 6px 0 22px;
+  }
+  .remember-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .remember-wrap input[type="checkbox"] {
+    width: 17px; height: 17px; padding: 0;
+    cursor: pointer; flex-shrink: 0;
+    appearance: none; -webkit-appearance: none;
+    border: 2px solid var(--orange);
+    border-radius: 4px;
+    background: var(--white);
+    position: relative;
+    transition: background .15s;
+  }
+  .remember-wrap input[type="checkbox"]:checked { background: var(--orange); }
+  .remember-wrap input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 3px; top: 0px;
+    width: 5px; height: 10px;
+    border: 2px solid white;
+    border-top: none; border-left: none;
+    transform: rotate(45deg);
+  }
+  .remember-label { font-size: 0.84rem; color: var(--text-muted); font-weight: 600; }
+
+  .btn-forgot {
+    background: none; border: none; cursor: pointer;
+    color: var(--error);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.84rem; font-weight: 700; transition: opacity .15s;
+  }
+  .btn-forgot:hover { opacity: 0.75; }
+
+  .btn-primary {
+    width: 100%; padding: 14px;
+    background: var(--orange); color: white;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.02em;
+    border: none; border-radius: 14px; cursor: pointer;
+    transition: transform .15s, box-shadow .15s, filter .15s;
+    box-shadow: 0 5px 18px rgba(240,144,10,0.38);
+  }
+  .btn-primary:hover { filter: brightness(1.07); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .card-note {
+    text-align: center; font-size: 0.79rem;
+    color: var(--text-muted); margin-top: 18px; line-height: 1.6;
+  }
+
+  .alert {
+    padding: 10px 14px; border-radius: 10px;
+    font-size: 0.83rem; margin-bottom: 14px; display: none;
+  }
+  .alert.show { display: block; animation: fadeUp .25s ease both; }
+  .alert-error   { background: #FEF2F0; color: var(--error);   border: 1px solid #F5C6C0; }
+  .alert-success { background: #EDFBF1; color: var(--success); border: 1px solid #B7EBCA; }
+  .alert-info    { background: #FFF7EC; color: var(--orange-dark); border: 1px solid #f5d080; }
+
+  /* OTP boxes */
+  .otp-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 6px; }
+  .otp-row input {
+    width: 46px; height: 52px;
+    text-align: center; font-size: 1.4rem; font-weight: 700;
+    padding: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .otp-row input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(240,144,10,0.13);
+    background: var(--white);
+  }
+  .otp-row input.filled {
+    border-color: var(--orange);
+    background: #fff7ec;
+  }
+
+  .resend-row { text-align: center; font-size: 0.81rem; color: var(--text-muted); margin-top: 12px; }
+  #resend-btn { display: none; }
+
+  .btn-link {
+    background: none; border: none; cursor: pointer;
+    color: var(--orange-dark); font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.84rem; font-weight: 600;
+    text-decoration: underline; text-underline-offset: 3px; padding: 0;
+    transition: color .15s;
+  }
+  .btn-link:hover { color: var(--orange); }
+  .footer-center { text-align: center; margin-top: 14px; }
+
+  /* Popup */
+  .popup-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(200,140,10,0.18);
+    backdrop-filter: blur(2px);
+    z-index: 999; align-items: center; justify-content: center;
+  }
+  .popup-overlay.show { display: flex; animation: fadeIn .22s ease both; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .popup-box {
+    background: var(--white); border-radius: 20px;
+    padding: 36px 40px 30px; text-align: center;
+    box-shadow: 0 20px 60px rgba(100,60,0,0.22);
+    animation: popIn .45s cubic-bezier(.34,1.56,.64,1) both; min-width: 220px;
+  }
+  .popup-check {
+    width: 64px; height: 64px; background: var(--success); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; box-shadow: 0 6px 20px rgba(39,174,96,0.35);
+    animation: popIn .5s .1s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .popup-text { font-size: 0.97rem; font-weight: 700; color: var(--text-main); line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ===== SCREEN 1: LOGIN ===== -->
+  <div class="screen active" id="screen-login">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+          <rect x="12" y="26" width="18" height="10" fill="rgba(255,255,255,0.92)"/>
+          <rect x="18" y="28" width="6" height="8" rx="1" fill="#f0900a"/>
+          <polygon points="6,26 21,17 36,26" fill="rgba(255,255,255,0.96)"/>
+          <polygon points="12,19 21,12 30,19" fill="rgba(255,255,255,0.72)"/>
+          <polygon points="18,12 21,6 24,12" fill="#ffffff"/>
+          <rect x="13" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+          <rect x="27" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+        </svg>
+      </div>
+      <span class="app-title">Quản lý công việc</span>
+    </div>
+
+    <div class="field">
+      <label>Tên đăng nhập</label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="18" height="14" viewBox="0 0 22 16" fill="none">
+            <rect x="0" y="0" width="22" height="16" rx="2.5" fill="#f0900a"/>
+            <path d="M1 1.5L11 9.5L21 1.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <input type="text" placeholder="Nhập tên đăng nhập" maxlength="30" autocomplete="username">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Mật khẩu</label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="19" viewBox="0 0 16 20" fill="none">
+            <path d="M3 9V6.5C3 3.46 5.24 1 8 1C10.76 1 13 3.46 13 6.5V9" stroke="#f0900a" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="0.5" y="8.5" width="15" height="11" rx="2.5" fill="#f0900a"/>
+            <circle cx="8" cy="14" r="2" fill="white"/>
+          </svg>
+        </span>
+        <input type="password" id="login-pass-input" placeholder="Nhập mật khẩu..." autocomplete="current-password">
+        <button class="eye-btn" type="button" onclick="togglePwd('login-pass-input', this)">
+          <svg width="22" height="16" viewBox="0 0 24 16" fill="none">
+            <path d="M1 8C1 8 5 1 12 1C19 1 23 8 23 8C23 8 19 15 12 15C5 15 1 8 1 8Z" fill="#f0900a"/>
+            <circle cx="12" cy="8" r="3.5" fill="white"/>
+            <circle cx="12" cy="8" r="1.6" fill="#f0900a"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="remember-row">
+      <label class="remember-wrap">
+        <input type="checkbox" id="remember-me">
+        <span class="remember-label">Ghi nhớ</span>
+      </label>
+      <button class="btn-forgot" onclick="goTo('screen-forgot')">Quên mật khẩu?</button>
+    </div>
+
+    <button class="btn-primary">Đăng nhập</button>
+    <div class="card-note">Hệ thống nội bộ – chỉ dành cho thành viên<br>được cấp tài khoản.</div>
+  </div>
+
+  <!-- ===== SCREEN 2: NHẬP EMAIL ===== -->
+  <div class="screen" id="screen-forgot">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+          <rect x="12" y="26" width="18" height="10" fill="rgba(255,255,255,0.92)"/>
+          <rect x="18" y="28" width="6" height="8" rx="1" fill="#f0900a"/>
+          <polygon points="6,26 21,17 36,26" fill="rgba(255,255,255,0.96)"/>
+          <polygon points="12,19 21,12 30,19" fill="rgba(255,255,255,0.72)"/>
+          <polygon points="18,12 21,6 24,12" fill="#ffffff"/>
+          <rect x="13" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+          <rect x="27" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+        </svg>
+      </div>
+      <div class="screen-title">Quên mật khẩu?</div>
+      <div class="screen-desc">Vui lòng điền mail đăng ký</div>
+    </div>
+
+    <div id="forgot-alert" class="alert alert-error"></div>
+
+    <div class="field">
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="18" height="14" viewBox="0 0 22 16" fill="none">
+            <rect x="0" y="0" width="22" height="16" rx="2.5" fill="#f0900a"/>
+            <path d="M1 1.5L11 9.5L21 1.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <input type="email" id="forgot-email" placeholder="Nhập địa chỉ email" autocomplete="email">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="doSendOTP()">Nhập mật khẩu</button>
+    <div class="footer-center" style="margin-top:14px">
+      <button class="btn-link" onclick="goTo('screen-login')">← Quay lại đăng nhập</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 3: NHẬP OTP ===== -->
+  <div class="screen" id="screen-otp">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+          <rect x="12" y="26" width="18" height="10" fill="rgba(255,255,255,0.92)"/>
+          <rect x="18" y="28" width="6" height="8" rx="1" fill="#f0900a"/>
+          <polygon points="6,26 21,17 36,26" fill="rgba(255,255,255,0.96)"/>
+          <polygon points="12,19 21,12 30,19" fill="rgba(255,255,255,0.72)"/>
+          <polygon points="18,12 21,6 24,12" fill="#ffffff"/>
+          <rect x="13" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+          <rect x="27" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+        </svg>
+      </div>
+      <div class="screen-title">Quên mật khẩu?</div>
+      <div class="screen-desc">Mã xác nhận OTP gửi qua mail của bạn</div>
+    </div>
+
+    <div id="otp-alert" class="alert alert-error"></div>
+
+    <div class="field">
+      <div class="otp-row">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="resend-row">
+      <span id="resend-timer">Gửi lại sau <strong id="countdown">60</strong>s</span>
+      <button class="btn-link" id="resend-btn" onclick="resendOTP()">Gửi lại OTP</button>
+    </div>
+
+    <button class="btn-primary" onclick="doVerifyOTP()" style="margin-top:18px;">Xác nhận</button>
+    <div class="footer-center" style="margin-top:12px">
+      <button class="btn-link" onclick="goTo('screen-forgot')">← Nhập lại email</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 4: ĐỔI MẬT KHẨU ===== -->
+  <div class="screen" id="screen-newpass">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+          <rect x="12" y="26" width="18" height="10" fill="rgba(255,255,255,0.92)"/>
+          <rect x="18" y="28" width="6" height="8" rx="1" fill="#f0900a"/>
+          <polygon points="6,26 21,17 36,26" fill="rgba(255,255,255,0.96)"/>
+          <polygon points="12,19 21,12 30,19" fill="rgba(255,255,255,0.72)"/>
+          <polygon points="18,12 21,6 24,12" fill="#ffffff"/>
+          <rect x="13" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+          <rect x="27" y="26" width="2" height="10" fill="rgba(255,255,255,0.52)"/>
+        </svg>
+      </div>
+      <div class="screen-title">Đặt mật khẩu mới</div>
+      <div class="screen-desc" style="margin-bottom:6px">Nhập mật khẩu mới của bạn</div>
+    </div>
+
+    <div id="newpass-alert" class="alert alert-error"></div>
+
+    <div class="field">
+      <label>Mật khẩu mới</label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="19" viewBox="0 0 16 20" fill="none">
+            <path d="M3 9V6.5C3 3.46 5.24 1 8 1C10.76 1 13 3.46 13 6.5V9" stroke="#f0900a" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="0.5" y="8.5" width="15" height="11" rx="2.5" fill="#f0900a"/>
+            <circle cx="8" cy="14" r="2" fill="white"/>
+          </svg>
+        </span>
+        <input type="password" id="new-pass" placeholder="Nhập mật khẩu mới">
+        <button class="eye-btn" type="button" onclick="togglePwd('new-pass', this)">
+          <svg width="22" height="16" viewBox="0 0 24 16" fill="none">
+            <path d="M1 8C1 8 5 1 12 1C19 1 23 8 23 8C23 8 19 15 12 15C5 15 1 8 1 8Z" fill="#f0900a"/>
+            <circle cx="12" cy="8" r="3.5" fill="white"/>
+            <circle cx="12" cy="8" r="1.6" fill="#f0900a"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Nhập lại mật khẩu mới</label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="19" viewBox="0 0 16 20" fill="none">
+            <path d="M3 9V6.5C3 3.46 5.24 1 8 1C10.76 1 13 3.46 13 6.5V9" stroke="#f0900a" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="0.5" y="8.5" width="15" height="11" rx="2.5" fill="#f0900a"/>
+            <circle cx="8" cy="14" r="2" fill="white"/>
+          </svg>
+        </span>
+        <input type="password" id="new-pass2" placeholder="Xác nhận mật khẩu mới">
+        <button class="eye-btn" type="button" onclick="togglePwd('new-pass2', this)">
+          <svg width="22" height="16" viewBox="0 0 24 16" fill="none">
+            <path d="M1 8C1 8 5 1 12 1C19 1 23 8 23 8C23 8 19 15 12 15C5 15 1 8 1 8Z" fill="#f0900a"/>
+            <circle cx="12" cy="8" r="3.5" fill="white"/>
+            <circle cx="12" cy="8" r="1.6" fill="#f0900a"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="doChangePass()">Tiếp tục</button>
+  </div>
+
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="popup-overlay" id="success-popup">
+  <div class="popup-box">
+    <div class="popup-check">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="popup-text">Đổi mật khẩu thành công!</div>
+  </div>
+</div>
+
+<script>
+  const CORRECT_EMAIL = '123456@gmail.com';
+  const CORRECT_OTP   = '124579';
+  const NEW_PASS_REQ  = '123456';
+  let countdownInterval = null;
+
+  function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function showAlert(id, msg, type = 'error') {
+    const el = document.getElementById(id);
+    el.className = `alert alert-${type} show`;
+    el.textContent = msg;
+  }
+
+  function hideAlert(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+
+  /* Step 1: Validate email */
+  function doSendOTP() {
+    const email = document.getElementById('forgot-email').value.trim();
+    hideAlert('forgot-alert');
+    if (!email) return showAlert('forgot-alert', 'Vui lòng nhập địa chỉ email.');
+    if (email !== CORRECT_EMAIL) return showAlert('forgot-alert', 'Email không tồn tại trong hệ thống.');
+    document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
+    startCountdown();
+    goTo('screen-otp');
+    setTimeout(() => document.querySelector('.otp-digit').focus(), 350);
+  }
+
+  /* Step 2: Verify OTP */
+  function doVerifyOTP() {
+    const digits = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
+    hideAlert('otp-alert');
+    if (digits.length < 6) return showAlert('otp-alert', 'Vui lòng nhập đủ 6 chữ số OTP.');
+    if (digits !== CORRECT_OTP) return showAlert('otp-alert', 'Mã OTP không chính xác.');
+    clearInterval(countdownInterval);
+    document.getElementById('new-pass').value = '';
+    document.getElementById('new-pass2').value = '';
+    hideAlert('newpass-alert');
+    goTo('screen-newpass');
+  }
+
+  /* Step 3: Change password (no old password required) */
+  function doChangePass() {
+    const newP  = document.getElementById('new-pass').value.trim();
+    const newP2 = document.getElementById('new-pass2').value.trim();
+    hideAlert('newpass-alert');
+    if (!newP || !newP2) return showAlert('newpass-alert', 'Vui lòng nhập đầy đủ thông tin.');
+    if (newP.length < 6) return showAlert('newpass-alert', 'Mật khẩu mới phải có ít nhất 6 ký tự.');
+    if (newP !== newP2) return showAlert('newpass-alert', 'Mật khẩu xác nhận không khớp.');
+    if (newP !== NEW_PASS_REQ) return showAlert('newpass-alert', 'Mật khẩu mới không hợp lệ.');
+
+    const popup = document.getElementById('success-popup');
+    popup.classList.add('show');
+    setTimeout(() => {
+      popup.classList.remove('show');
+      document.getElementById('forgot-email').value = '';
+      goTo('screen-login');
+    }, 2200);
+  }
+
+  function resendOTP() {
+    document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
+    hideAlert('otp-alert');
+    startCountdown();
+    showAlert('otp-alert', 'Đã gửi lại mã OTP thành công.', 'info');
+  }
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    let t = 60;
+    document.getElementById('resend-timer').style.display = 'inline';
+    document.getElementById('resend-btn').style.display = 'none';
+    document.getElementById('countdown').textContent = t;
+    countdownInterval = setInterval(() => {
+      t--;
+      document.getElementById('countdown').textContent = t;
+      if (t <= 0) {
+        clearInterval(countdownInterval);
+        document.getElementById('resend-timer').style.display = 'none';
+        document.getElementById('resend-btn').style.display = 'inline';
+      }
+    }, 1000);
+  }
+
+  function togglePwd(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    const isHidden = inp.type === 'password';
+    inp.type = isHidden ? 'text' : 'password';
+    const svg = btn.querySelector('svg');
+    if (isHidden) {
+      svg.innerHTML = `
+        <path d="M1 8C1 8 5 1 12 1C19 1 23 8 23 8C23 8 19 15 12 15C5 15 1 8 1 8Z" fill="#f0900a"/>
+        <line x1="3" y1="2" x2="21" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      `;
+    } else {
+      svg.innerHTML = `
+        <path d="M1 8C1 8 5 1 12 1C19 1 23 8 23 8C23 8 19 15 12 15C5 15 1 8 1 8Z" fill="#f0900a"/>
+        <circle cx="12" cy="8" r="3.5" fill="white"/>
+        <circle cx="12" cy="8" r="1.6" fill="#f0900a"/>
+      `;
+    }
+  }
+
+  /* OTP digit navigation */
+  document.querySelectorAll('.otp-digit').forEach((inp, idx, arr) => {
+    inp.addEventListener('input', e => {
+      const val = e.target.value.replace(/[^0-9]/g, '');
+      e.target.value = val.slice(-1);
+      if (val) inp.classList.add('filled'); else inp.classList.remove('filled');
+      if (val && idx < arr.length - 1) arr[idx + 1].focus();
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !inp.value && idx > 0) {
+        arr[idx - 1].focus();
+        arr[idx - 1].classList.remove('filled');
+      }
+    });
+    inp.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      [...text].slice(0, 6).forEach((ch, i) => {
+        if (arr[idx + i]) { arr[idx + i].value = ch; arr[idx + i].classList.add('filled'); }
+      });
+      const nextEmpty = [...arr].findIndex((a, i) => i >= idx && !a.value);
+      if (nextEmpty !== -1) arr[nextEmpty].focus();
+    });
+  });
+
+  /* Enter key shortcut */
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const id = document.querySelector('.screen.active')?.id;
+    if (id === 'screen-forgot')  doSendOTP();
+    if (id === 'screen-otp')     doVerifyOTP();
+    if (id === 'screen-newpass') doChangePass();
+  });
+</script>
+</body>
+</html>
